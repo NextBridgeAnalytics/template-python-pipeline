@@ -1,0 +1,17 @@
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python>=3.6
+  - black
+  - bumpversion
+  - dataclasses
+  - importlib_resources
+  - ipython
+  - loguru
+  - munch
+  - mypy
+  - numpy
+  - pandas
+  - pytest
+  - pytest-cov
