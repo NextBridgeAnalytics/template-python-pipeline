@@ -1,0 +1,2 @@
+graft {{ cookiecutter.repo_name }}/config
+exclude *_local.ini

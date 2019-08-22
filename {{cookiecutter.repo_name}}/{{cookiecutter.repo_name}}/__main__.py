@@ -3,11 +3,22 @@
 Usage:
 ------
 
-    $ {exe} command [options] ...
+    $ {exe} <pipeline> [options] ...
+
+Pipeline can be any of the following:
+
+{pipelines}
+
+The default pipeline is {{ cookiecutter.default_pipeline }}.
 
 The following options are supported:
 
-{global_options}
+  -h, --help         Show this help message
+      --info, ...    Change log level for the console.
+                       Choose between --trace, --store, --debug, --dev, --info,
+                       --time, --success, --warning, --error, --critical
+      --log_to_file  Log to file as well as console
+      --test_log     Show a test message at different log levels
 
 
 Current maintainers:
@@ -22,28 +33,15 @@ Version: {version}
 from datetime import datetime
 import sys
 
-# Hub imports
+# {{ cookiecutter.project_name }} imports
 import {{ cookiecutter.repo_name }}
-from {{ cookiecutter.repo_name }} import commands
+from {{ cookiecutter.repo_name }} import pipelines
 from {{ cookiecutter.repo_name }}.utils import log
 from {{ cookiecutter.repo_name }}.utils.log import logger
 
 
-# Global options, used mainly for documentation
-_GLOBAL_OPTIONS = {
-    ("-h", "--help"): "Show this help message",
-    ("--log_to_file",): "Log to file, as well as console",
-    ("--info", "..."): (
-        "Change log level for the console.\n"
-        "                       Choose between --trace, --debug, --store, --dev, --info,\n"
-        "                       --time, --success, --warning, --error, --critical"
-    ),
-    ("--test_log",): "Show a test message at different log levels",
-}
-
-
 def main():
-    """Parse command line and run The Hub"""
+    """Parse command line and run {{ cookiecutter.project_name }}"""
     opts = [o for o in sys.argv[1:] if o.startswith("-")]
     args = [a for a in sys.argv[1:] if not a.startswith("-")]
 
@@ -53,19 +51,22 @@ def main():
         log.test_log_levels()
 
     # Show help
-    if not args:
-        _show_help()
+    if "-h" in opts or "--help" in opts:
+        help_pipelines = "\n".join(
+            f"  {p:<18} {pipelines.info(p).description}" for p in pipelines.names()
+        )
+        _show_help(pipelines=help_pipelines)
         raise SystemExit()
 
     # Start logging
     exe = {{ cookiecutter.repo_name }}.__exe__
     logger.opt(ansi=True).info(f"<underline>Start {exe!r}</underline> at {datetime.now()}")
 
-    # Choose command
-    command = args[0]
+    # Choose pipeline
+    pipeline = args[0] if args else "{{ cookiecutter.default_pipeline }}"
 
-    # Perform command
-    commands.run(command, args=args[1:], opts=opts)
+    # Perform pipeline
+    pipelines.run(pipeline, args=args[1:], opts=opts)
 
 
 def _show_help(doc=None, **replace_args):
@@ -75,12 +76,11 @@ def _show_help(doc=None, **replace_args):
         doc:           Text of help documentation
         replace_args:  Additional {args} that should be replaced
     """
-    # Add extra args that can be replaced
-    replace_args["global_options"] = "\n".join(
-        f"  {', '.join(o):<18} {d}" for o, d in _GLOBAL_OPTIONS.items()
-    )
-
     # Update the doc and print it
     doc = __doc__ if doc is None else doc
     doc = {{ cookiecutter.repo_name }}._update_doc(doc).format(**replace_args)
     print(doc)
+
+
+if __name__ == "__main__":
+    main()

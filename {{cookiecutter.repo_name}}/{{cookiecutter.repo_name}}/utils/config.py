@@ -22,9 +22,7 @@ _CONFIG_FILENAMES = dict(
 )
 
 # Prioritized list of possible locations for all {{ cookiecutter.project_name }} config files
-_PACKAGE_CONFIG_DIR = (
-    object()
-)  # Marker representing the config directory inside {{ cookiecutter.project_name }} package
+_PACKAGE_CONFIG_DIR = object()  # Marker representing {{ cookiecutter.repo_name }}/config
 _CONFIG_DIRECTORIES = (
     pathlib.Path.cwd(),
     pathlib.Path.home() / ".{{ cookiecutter.repo_name }}",
@@ -54,7 +52,7 @@ def read_config(cfg_name: str, use_options: bool = False) -> Configuration:
 
 def config_paths(cfg_name: str) -> pathlib.Path:
     """Yield all files that contain the given configuration"""
-    for file_name in _CONFIG_FILENAMES[cfg_name][::-1]:
+    for file_name in file_names(cfg_name):
         for file_dir in _CONFIG_DIRECTORIES:
             if file_dir is _PACKAGE_CONFIG_DIR:
                 try:
@@ -70,6 +68,12 @@ def config_paths(cfg_name: str) -> pathlib.Path:
                 if file_path.exists():
                     yield _BASE_DIR
                     break
+
+
+def file_names(cfg_name: str) -> str:
+    """Return all possible file names for a given configuration"""
+    default_filenames = f"{cfg_name}.ini", f"{cfg_name}_local.ini"
+    return _CONFIG_FILENAMES.get(cfg_name, default_filenames)
 
 
 # Read configurations from file and command line options

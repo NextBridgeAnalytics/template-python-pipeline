@@ -1,9 +1,10 @@
 {
-    "project_name": "FunStuff",
-    "repo_name": "fun_stuff",
-    "exe_name": "fun",
     "your_name": "Jule Nissen",
     "your_email": "jni@nextbridge.no",
-    "project_short_description": "Refreshingly fun stuff.",
+    "project_name": "Fun Stuff",
+    "project_short_description": "Doing {{ cookiecutter.project_name }}.",
+    "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",
+    "exe_name": "{{ cookiecutter.repo_name }}",
+    "default_pipeline": "stuff",
     "version": "0.1.0"
 }

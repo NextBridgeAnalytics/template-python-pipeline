@@ -1,6 +1,6 @@
 """Simple setup file for installation of {{ cookiecutter.project_name }}
 
-Use pip to install the package:
+Use pip to install the package for development:
 
     $ python -m pip install -e .
 """
