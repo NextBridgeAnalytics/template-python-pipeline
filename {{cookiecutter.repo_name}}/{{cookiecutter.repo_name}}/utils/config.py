@@ -14,7 +14,7 @@ except ImportError:
 from midgard.config.config import Configuration
 
 # Base directory for the {{ cookiecutter.repo_name }} package
-_BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+_BASE_DIR = pathlib.Path(__file__).resolve().parent.parent.parent
 
 # Prioritized list of possible names of {{ cookiecutter.project_name }} config files
 _CONFIG_FILENAMES = dict(
@@ -66,7 +66,7 @@ def config_paths(cfg_name: str) -> pathlib.Path:
             else:
                 file_path = file_dir / file_name
                 if file_path.exists():
-                    yield _BASE_DIR
+                    yield file_path
                     break
 
 
