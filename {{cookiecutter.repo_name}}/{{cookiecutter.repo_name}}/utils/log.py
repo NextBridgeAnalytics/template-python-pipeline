@@ -43,7 +43,7 @@ def init(opts: List[str]) -> None:
         logger.add(config.{{ cookiecutter.repo_name }}.log_file.file_path.path, **file_args)
 
     # Set log level
-    all_levels = set(logger._levels)
+    all_levels = set(_get_levels())
     opt_levels = {o[2:].upper() for o in opts if o.startswith("--")}
     level = (all_levels & opt_levels) or {config.{{ cookiecutter.repo_name }}.log_console.level.str.upper()}
     logger.add(sys.stderr, level=level.pop(), format=config.{{ cookiecutter.repo_name }}.log_console.format.str)
@@ -51,9 +51,17 @@ def init(opts: List[str]) -> None:
 
 def _add_levels(additional_levels: List[LogLevel]) -> None:
     """Add custom log levels"""
+
+    def blank(self):
+        """Write a blank line to the logger"""
+        for handler in self._handlers.values():
+            handler._writer("\n")
+
+    setattr(logger.__class__, "blank", functools.partial(blank, logger))
+
     for level in additional_levels:
         logger.level(**level._asdict())
-        setattr(logger, level.name.lower(), functools.partial(logger.log, level.name))
+        setattr(logger.__class__, level.name.lower(), functools.partial(logger.log, level.name))
 
 
 def test_log_levels():
@@ -64,9 +72,21 @@ def test_log_levels():
     logger.add(sys.stderr, level=0, format=config.{{ cookiecutter.repo_name }}.log_console.format.str)
 
     # Log to each level
-    for name, level in sorted(logger._levels.items(), key=lambda lvl: lvl[1].no):
+    for name, level in sorted(_get_levels().items(), key=lambda lvl: lvl[1].no):
         log_func = getattr(logger, name.lower())
         log_func(f"Use logger.{name.lower()}() to write to {name} ({level.no})")
+
+
+def _get_levels():
+    """Get available levels on logger
+
+    Support both old (< 0.4) and new (>= 0.4) versions of loguru.
+    """
+    try:
+        return logger._core.levels
+    except AttributeError:
+        return logger._levels
+
 
     # Quit the program
     raise SystemExit()
