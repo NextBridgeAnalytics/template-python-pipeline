@@ -1,6 +1,6 @@
 {
-    "your_name": "Jule Nissen",
-    "your_email": "jni@nextbridge.no",
+    "your_name": "N. Este Bru",
+    "your_email": "neb@nextbridge.no",
     "project_name": "Fun Stuff",
     "project_short_description": "Doing {{ cookiecutter.project_name }}.",
     "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",

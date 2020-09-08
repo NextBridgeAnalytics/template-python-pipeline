@@ -1,2 +1,2 @@
 # Ignore local configuration files
-*_local.ini
+*_local.toml

@@ -1,0 +1,5 @@
+# This file contains local configurations of {{ cookiecutter.project_name }}. Values in this file, will
+# override those set in `{{ cookiecutter.repo_name }}.toml`. This file is not commited to Git.
+
+[log.console]
+format                     = "<green>{elapsed}</green> <level>{level:<8} {message}</level>"

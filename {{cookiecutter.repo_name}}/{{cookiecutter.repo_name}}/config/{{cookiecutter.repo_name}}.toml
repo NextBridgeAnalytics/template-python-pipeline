@@ -1,0 +1,14 @@
+[paths]
+user                       = "{path_home}/{{ cookiecutter.repo_name }}/"
+
+
+[log.console]
+level                      = "INFO"
+format                     = "<green>{time}</green> <level>{level:<8} {message}</level>"
+
+
+#
+# Pipelines
+#
+[pipelines.{{ cookiecutter.default_pipeline }}]
+stages             = []

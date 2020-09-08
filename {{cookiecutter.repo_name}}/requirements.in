@@ -1,0 +1,13 @@
+# This file lists the main dependencies of {{ cookiecutter.project_name }}
+#
+# To create a proper requirements.txt, use pip-tools:
+#
+#    python -m piptools compile requirements.in
+#
+
+codetiming
+loguru
+munch
+pyconfs[toml]
+pyplugs
+typer

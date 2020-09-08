@@ -1,15 +1,4 @@
-"""{{ cookiecutter.project_name }} - {{ cookiecutter.project_short_description }}
-
-See `{exe} --help` for information about how to use the program.
-
-
-Current maintainers:
---------------------
-
-{maintainers}
-
-Version: {version}
-"""
+"""{{ cookiecutter.project_name }} - {{ cookiecutter.project_short_description }}"""
 
 # Standard library imports
 from collections import namedtuple as _namedtuple
@@ -20,14 +9,14 @@ import re as _re
 __version__ = "{{ cookiecutter.version }}"  # This is automatically set using the bumpversion tool
 
 
-# Authors of Midgard.
+# Authors of {{ cookiecutter.project_name }}
 _Author = _namedtuple("_Author", ["name", "email", "start", "end"])
 _AUTHORS = [
     # Add list of maintainers, change _date.max if they leave the project
     _Author(
         "{{ cookiecutter.your_name }}",
         "{{ cookiecutter.your_email }}",
-        _date(2019, 6, 1),
+        _date(2020, 9, 1),
         _date.max,
     ),
     # Hall of fame
@@ -35,10 +24,6 @@ _AUTHORS = [
 
 __author__ = ", ".join(a.name for a in _AUTHORS if a.start < _date.today() < a.end)
 __contact__ = ", ".join(a.email for a in _AUTHORS if a.start < _date.today() < a.end)
-
-
-# Name of executable
-__exe__ = "{{ cookiecutter.exe_name }}"
 
 
 # Update doc with info about maintainers and version
@@ -58,7 +43,7 @@ def _update_doc(doc: str) -> str:
     maintainers = "\n".join(maintainer_list)
 
     # Add to doc-string
-    return _incomplete_format(doc, maintainers=maintainers, version=__version__, exe=__exe__)
+    return _incomplete_format(doc, maintainers=maintainers, version=__version__)
 
 {% raw %}
 def _incomplete_format(text: str, **replace_args: str) -> str:

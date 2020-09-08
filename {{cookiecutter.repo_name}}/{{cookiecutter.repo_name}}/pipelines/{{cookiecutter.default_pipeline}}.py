@@ -1,30 +1,18 @@
-"""Example of how to use a plugin
-
-Usage:
-------
-
-    $ {exe} {command} [options] ...
-
-The following options are supported:
-
-Furthermore, the following global options are available:
-
-{global_options}
-
-
-Current maintainers:
---------------------
-
-{maintainers}
-
-Version: {version}
-"""
+"""Example of how to use a plugin"""
 
 # Third party imports
 import pyplugs
 
 
 @pyplugs.register
-def dump(args, opts):
-    """Dump all the data to a file"""
-    print("Hurra!")
+def read(data, meta):
+    """Add information to data"""
+    data.name = "{{ cookiecutter.project_name }}"
+    data.path = __file__
+
+
+@pyplugs.register
+def dump_to_screen(data, meta):
+    """Dump infomation to screen"""
+    for key, value in data.items():
+        print(f"{key:<10} = {value}")

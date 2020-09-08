@@ -1,2 +1,2 @@
 graft {{ cookiecutter.repo_name }}/config
-exclude *_local.ini
+exclude *_local.toml

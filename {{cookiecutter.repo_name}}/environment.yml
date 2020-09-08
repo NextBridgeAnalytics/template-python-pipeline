@@ -1,17 +1,15 @@
+# Conda is used mainly for development dependencies
+
 channels:
   - defaults
   - conda-forge
 dependencies:
-  - python>=3.6
+  - python>=3.7
   - black
-  - bumpversion
-  - dataclasses
-  - importlib_resources
+  - bump2version
   - ipython
-  - loguru
-  - munch
+  - isort
   - mypy
-  - numpy
-  - pandas
+  - pip-tools
   - pytest
   - pytest-cov
